@@ -1,15 +1,11 @@
-const redirect_uri = "https://makeratplay.github.io/SpotifyWebAPI/"; // change this your value
-//var redirect_uri = "http://127.0.0.1:5500/index.html";
-
-
 const id = '4aa2e2d16efe46e198d444f232e96695'; // client id
 const sec = '42147b97f5254fc1b06949d1cc3f0694'; // secret
 const redirect_uri = 'http://localhost:3000'; // feel free to edit
 
-var access_token = null;
-var refresh_token = null;
-var currentPlaylist = "";
-var radioButtons = [];
+let access_token = null;
+let refresh_token = null;
+let currentPlaylist = "";
+let radioButtons = [];
 
 const AUTHORIZE = "https://accounts.spotify.com/authorize"
 const TOKEN = "https://accounts.spotify.com/api/token";
@@ -102,9 +98,9 @@ const callAuthorizationApi = (body) => {
 
 const handleAuthorizationResponse = () => {
     if (this.status == 200) {
-        var data = JSON.parse(this.responseText);
+        // var data = JSON.parse(this.responseText);
         console.log(data);
-        var data = JSON.parse(this.responseText);
+        const data = JSON.parse(this.responseText);
         if (data.access_token != undefined) {
             access_token = data.access_token;
             localStorage.setItem("access_token", access_token);
@@ -127,7 +123,7 @@ const refreshDevices = () => {
 
 const handleDevicesResponse = () => {
     if (this.status == 200) {
-        var data = JSON.parse(this.responseText);
+        const data = JSON.parse(this.responseText);
         console.log(data);
         removeAllItems("devices");
         data.devices.forEach(item => addDevice(item));
@@ -163,7 +159,7 @@ const refreshPlaylists = () => {
 
 const handlePlaylistsResponse = () => {
     if (this.status == 200) {
-        var data = JSON.parse(this.responseText);
+        const data = JSON.parse(this.responseText);
         console.log(data);
         removeAllItems("playlists");
         data.items.forEach(item => addPlaylist(item));
@@ -264,7 +260,7 @@ const fetchTracks = () => {
 
 const handleTracksResponse = () => {
     if (this.status == 200) {
-        var data = JSON.parse(this.responseText);
+        const data = JSON.parse(this.responseText);
         console.log(data);
         removeAllItems("tracks");
         data.items.forEach((item, index) => addTrack(item, index));
@@ -291,7 +287,7 @@ const currentlyPlaying = () => {
 
 const handleCurrentlyPlayingResponse = () => {
     if (this.status == 200) {
-        var data = JSON.parse(this.responseText);
+        const data = JSON.parse(this.responseText);
         console.log(data);
         if (data.item != null) {
             document.getElementById("albumImage").src = data.item.album.images[0].url;
