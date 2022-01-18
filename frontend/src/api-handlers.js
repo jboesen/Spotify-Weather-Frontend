@@ -1,6 +1,8 @@
 let id = '4aa2e2d16efe46e198d444f232e96695'; // client id
 let sec = '42147b97f5254fc1b06949d1cc3f0694'; // secret
 const redirect_uri = 'http://localhost:3000/home'; // feel free to edit
+const request = require('request'); // "Request" library
+
 
 let access_token = null;
 let refresh_token = null;
@@ -69,36 +71,33 @@ const fetchAccessToken = (code) => {
 
 export const callAuthorizationApi = (body) => {
     console.log("callAuthorizationApi")
-    let xhr = new XMLHttpRequest({ mozSystem: true }
-    );
-    xhr.open("POST", TOKEN);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.setRequestHeader('Authorization', 'Basic ' + (id + ":" + sec).toString('base64'));
-    xhr.send(body);
-    xhr.onload = handleAuthorizationResponse;
-}
+    const authOptions = {
+        url: 'https://accounts.spotify.com/api/token',
+        form: {
+            code: code,
+            redirect_uri: redirect_uri,
+            grant_type: 'authorization_code'
+        },
+        headers: {
+            'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
+        },
+        json: true
+    };
 
-export const handleAuthorizationResponse = () => {
-    console.log("handleAuthorizationResponse")
-    if (this.status === 200) {
-        const data = JSON.parse(this.responseText);
-        console.log(data);
-        if (data.access_token !== undefined) {
-            access_token = data.access_token;
-            localStorage.setItem("access_token", access_token);
-        }
-        if (data.refresh_token !== undefined) {
-            refresh_token = data.refresh_token;
-            localStorage.setItem("refresh_token", refresh_token);
-        }
-        // onPageLoad();
-    }
-    else {
-        console.log(this.responseText);
-        alert(this.responseText);
-    }
-}
+    request.post(authOptions, (error, response, body) => {
+        if (!error && response.statusCode === 200) {
 
+            const access_token = body.access_token,
+                refresh_token = body.refresh_token;
+
+            const options = {
+                url: 'https://api.spotify.com/v1/me',
+                headers: { 'Authorization': 'Bearer ' + access_token },
+                json: true
+            }
+        }
+    })
+}
 
 
 export const handleRender = () => {
