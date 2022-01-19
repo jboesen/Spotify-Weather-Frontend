@@ -10,6 +10,7 @@ let refresh_token = null;
 // Endpoints
 const AUTHORIZE = "https://accounts.spotify.com/authorize"
 const TOKEN = "https://accounts.spotify.com/api/token";
+const PROFILE = "https://api.spotify.com/v1/me"
 const DEVICES = "https://api.spotify.com/v1/me/player/devices";
 const PLAY = "https://api.spotify.com/v1/me/player/play";
 const PAUSE = "https://api.spotify.com/v1/me/player/pause";
@@ -81,7 +82,7 @@ const fetchAccessToken = () => {
             localStorage.setItem('refresh_token', refresh_token)
 
             const options = {
-                url: 'https://api.spotify.com/v1/me',
+                url: PROFILE,
                 headers: { 'Authorization': 'Bearer ' + access_token },
                 json: true
             };
@@ -180,13 +181,11 @@ const updateAccess = () => {
     console.log('updating access')
     console.log(`access token: ${access_token}`)
     const options = {
-        url: 'https://api.spotify.com/v1/me',
+        url: PROFILE,
         headers: { 'Authorization': 'Bearer ' + access_token },
         json: true
     };
     request.get(options, (error, response, body) => {
-        console.log('v1/me: ')
-        console.log(body)
         // if this attribute does not exist
         try {
             if (body.error) {
