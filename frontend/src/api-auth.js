@@ -1,7 +1,7 @@
 let id = '4aa2e2d16efe46e198d444f232e96695'; // client id
 let sec = '42147b97f5254fc1b06949d1cc3f0694'; // secret
 const redirect_uri = 'http://localhost:3000/home'; // feel free to edit
-const request = require('request'); // "Request" library
+const request = require('request'); // "Request" library --> if I had more time, I would swap this out to uniform libraries
 const { generatePlaylist } = require('./api-playlists')
 
 let access_token = null;
@@ -116,6 +116,7 @@ const refreshAccessToken = () => {
         }
     });
 }
+
 const handleAuthorizationResponse = () => {
     console.log("handleAuthorizationResponse")
     if (this.status === 200) {
