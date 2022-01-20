@@ -27,7 +27,7 @@ export const StyledH1 = styled.h1`
     font-size: 4em;
     margin: 0px auto;
     text-align: center;
-    margin: 50px 0 600px;
+    margin: 50px 0 60px;
 `
 
 export const StyledLink = styled(Link)`

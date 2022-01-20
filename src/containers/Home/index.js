@@ -7,8 +7,6 @@ import { requestAuthorization, onPageLoad } from '../../api-functions'
 
 const Home = () => {
     const [loggedIn, setLoggedIn] = useState(false)
-    // check token
-    // spotify = credentials()
     useEffect({
         onPageLoad
     }, [])

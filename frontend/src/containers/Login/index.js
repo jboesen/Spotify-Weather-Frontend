@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { useMutation, useQuery } from "@apollo/react-hooks"
 import { useHistory } from 'react-router-dom'
+import { Background, StyledInput, StyledLink } from './styles'
+import { Container } from '../Welcome/styles'
 import { LOGIN } from './graphql'
 
 const Login = () => {
@@ -8,28 +10,25 @@ const Login = () => {
     const [email, setEmail] = useState('')
     const [pass, setPass] = useState('')
 
-    const [login, { loading, error } ] = useMutation(LOGIN, {
+    const [login, { loading, error }] = useMutation(LOGIN, {
         variables: {
             email,
             password: pass
         },
-        onCompleted: ({ login: { token }}) => {
+        onCompleted: ({ login: { token } }) => {
             localStorage.setItem('token', token);
             // redirect to homepage
             history.push('/home');
         },
     });
-
     return (
-        <div>
-            <h2>Log in</h2>
-            <p>Email</p>
-            <input name='email' type='text' value={email} onChange={(e) => setEmail(e.target.value)}></input>
-            <p>Password</p>
-            <input name='password' type='password' value={pass} onChange={(e) => setPass(e.target.value)}></input>
-            <button onClick={() => login()}>Login</button>
-        </div>
-
+        <Background>
+            <Container>
+                <StyledInput placeholder='Enter your email' type='email'></StyledInput>
+                <StyledInput placeholder='Enter your password' type='password'></StyledInput>
+                <StyledLink to='/home'>Log in</StyledLink>
+            </Container>
+        </Background>
     );
 }
 
