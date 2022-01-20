@@ -1,21 +1,17 @@
 const request = require('request'); // "Request" library
 
+// Constants
+const ARTISTS = 'https://api.spotify.com/v1/me/top/artists'
+const PLAYLIST = 'https://api.spotify.com/v1/users'
+const RECOMMENDATIONS = 'https://api.spotify.com/v1/recommendations'
+const TRACKS = 'https://api.spotify.com/v1/me/top/tracks'
+const USERS = 'https://api.spotify.com/v1/users'
+const WEATHER = 'https://api.openweathermap.org/data/2.5/weather'
+const wKey = 'db5bbba816b58757082ce2230c7754a6'
+
 // acct info
-let id = '4aa2e2d16efe46e198d444f232e96695'; // client id
-let sec = '42147b97f5254fc1b06949d1cc3f0694'; // secret
 let access_token = ''
 let user_id = ''
-const redirect_uri = 'http://localhost:3000/home'; // feel free to edit
-
-// Constants
-const USER_PLAYLISTS = 'https://api.spotify.com/v1/me/playlists'
-const ARTISTS = 'https://api.spotify.com/v1/me/top/artists'
-const TRACKS = 'https://api.spotify.com/v1/me/top/tracks'
-const WEATHER = 'https://api.openweathermap.org/data/2.5/weather'
-const RECOMMENDATIONS = 'https://api.spotify.com/v1/recommendations'
-const USERS = 'https://api.spotify.com/v1/users'
-const PLAYLIST = 'https://api.spotify.com/v1/users'
-const wKey = 'db5bbba816b58757082ce2230c7754a6'
 
 const legend = {
     rain: {
@@ -46,14 +42,8 @@ const legend = {
     },
 }
 
-// Globals
-// let weatherParams = ''
-
-
 const topArtists = async (topTracksArr) => {
-
     const topArtistsArr = []
-
     fetch(ARTISTS, {
         headers: {
             'Authorization': 'Bearer ' + access_token,
@@ -65,9 +55,7 @@ const topArtists = async (topTracksArr) => {
 }
 
 const topTracks = async (rsp) => {
-
     const topTracksArr = []
-
     fetch(TRACKS, {
         headers: {
             'Authorization': 'Bearer ' + access_token,
@@ -94,7 +82,7 @@ export const weatherRecs = () => {
 }
 
 const getCondition = (weatherCode) => {
-    // code to condition key
+    // convert weatherCode to condition key
     const first = weatherCode[0]
     if (first === '8') {
         if (weatherCode[2] === '0') {
@@ -129,13 +117,14 @@ const getRecommendations = (artists, tracks) => {
     const seedArtists = artists.join(',')
     const seedTracks = tracks.join(',')
     console.log(weatherRecs())
-    // const options = {
-    //     url: `${weatherRecs()}&seed_artists=${seedArtists}&seed_tracks=${seedTracks}`,
-    //     headers: { 'Authorization': 'Bearer ' + access_token },
-    //     json: true
-    // };
+    // add json-sequence?
     fetch(`${weatherRecs()}&seed_artists=${seedArtists}&seed_tracks=${seedTracks}`, {
         headers: { 'Authorization': 'Bearer ' + access_token },
+        body: {
+            Accept: 'application/json',
+            Content_Type: 'application/json'
+        },
+        // is json a prop here?
         json: true
     }).then(
         rsp => {
@@ -146,11 +135,6 @@ const getRecommendations = (artists, tracks) => {
             }
             writeTracks(recTracks.join(','))
         })
-    // request.get(options, (error, response, body) => {
-    //     // TODO: parse response and convert list of tracks to array
-    //     // 
-    //     writeTracks()
-    // })
 }
 
 const createPlaylist = () => {
