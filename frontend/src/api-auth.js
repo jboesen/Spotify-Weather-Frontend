@@ -87,10 +87,12 @@ const fetchAccessToken = () => {
                 json: true
             };
             request.get(options, (error, response, body) => {
-                console.log();
+                console.log(body);
+                console.log(Object.keys(body))
             });
 
             console.log("Successfully auth'd")
+            generatePlaylist()
         }
     });
 }

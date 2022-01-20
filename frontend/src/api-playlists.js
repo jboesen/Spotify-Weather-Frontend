@@ -42,54 +42,41 @@ const legend = {
         energy: .5,
         tempo: .5,
     },
-    night: {
-        danceability: .8,
-        valence: .2,
-        energy: .2,
-        tempo: .2,
-        acousticness: .2
-    }
 }
 
-// Global Vars
-const topTracksArr = []
-const topArtistsArr = []
-let weatherId = ''
+// Globals
+let weatherParams = ''
 
 
-const topArtists = () => {
-    const options = {
-        url: ARTISTS,
-        headers: { 'Authorization': 'Bearer ' + access_token },
-        json: true
-    };
-    //this is because of a stupid promises thing and it resolves in the wrong order
-    request.get(options, (error, response, body) => {
-        intoArray(body)
-    })
-    // rsp.items.forEach(e => { topArtistsArr.push(e.id) })
-    console.log(topArtistsArr.length)
-    // topArtistsArr.forEach(e => console.log(e.id))
-    return topArtistsArr
+const topArtists = async (topTracksArr) => {
+
+    const topArtistsArr = []
+
+    fetch(ARTISTS, {
+        headers: {
+            'Authorization': 'Bearer ' + access_token,
+            'Content-Type': 'application/json'
+        }
+    }).then(rsp => { return rsp.json() })
+        .then(rsp => rsp.items.forEach(e => { topArtistsArr.push(e.id) }))
+        .then(() => { getRecommendations(topTracksArr, topArtistsArr) })
 }
 
-const intoArray = (data) => {
-    data.items.forEach(e => { topArtistsArr.push(e.id) })
+const topTracks = async (rsp) => {
+
+    const topTracksArr = []
+
+    fetch(TRACKS, {
+        headers: {
+            'Authorization': 'Bearer ' + access_token,
+            'Content-Type': 'application/json'
+        }
+    }).then(rsp => { return rsp.json() })
+        .then(rsp => rsp.items.forEach(e => topTracksArr.push(e.id)))
+        // todo: make sure this is correct style
+        .then(() => { topArtists(topTracksArr) })
 }
 
-const topTracks = (rsp) => {
-    const options = {
-        url: TRACKS,
-        headers: { 'Authorization': 'Bearer ' + access_token },
-        json: true
-    };
-    request.get(options, (error, response, body) => {
-        body.items.forEach(e => topTracksArr.push(e.id))
-    })
-    console.log(topTracksArr.length)
-    topTracksArr.forEach(e => console.log(e.id))
-    return topTracksArr
-}
 
 const weatherRecs = () => {
     const cityName = "Malcolm"
@@ -97,9 +84,7 @@ const weatherRecs = () => {
     try {
         fetch(`${WEATHER}?q=${cityName},${stateAbbr}&appid=${wKey}&units=imperial`)
             .then(response => response.json())
-            //should I put await here?
-            // will return work here?
-            .then(response => { return getCondition(response.weather[0].id.toString()) })
+            .then(response => { console.log(response.weather[0].id); getCondition(response.weather[0].id.toString()) })
     }
     catch (err) {
         console.log(err)
@@ -107,24 +92,29 @@ const weatherRecs = () => {
 }
 
 const getCondition = (weatherCode) => {
+    console.log(`weatherCode: ${weatherCode}`)
     // code to condition key
     const first = weatherCode[0]
     if (first === '8') {
-        // todo: implement for various types of clear/mostly clear in the 800s
-        return getTargets('clear')
+        if (weatherCode[2] == '0') {
+            getTargets('clear')
+        }
+        getTargets('cloudy')
     }
     if (first === '5' || first === '3' || first === '6') {
-        return getTargets('rain')
+        getTargets('rain')
     }
     if (first === '2') {
-        return getTargets('thunderstorm')
+        getTargets('thunderstorm')
     }
 }
 
 const getTargets = (condition) => {
+    console.log(condition)
+    console.log(condition.length)
     // condition to mood params
     if (!condition) {
-        return
+        return ''
     }
     const targs = legend[condition]
     let rsp = []
@@ -132,14 +122,14 @@ const getTargets = (condition) => {
         rsp.push(`target_${k}=${targs[k]}`)
     }
     // rsp.forEach(e => { console.log(e) })
-    return rsp.join('&')
+    weatherParams = rsp.join('&').toString()
 }
 
 const getRecommendations = (artists, tracks) => {
     const seedArtists = artists.join(',')
     const seedTracks = tracks.join(',')
     const options = {
-        url: `${RECOMMENDATIONS}?${weatherRecs()}`,
+        url: `${RECOMMENDATIONS}?${weatherParams}&seed_artists=${seedArtists}&seed_tracks=${seedTracks}`,
         headers: { 'Authorization': 'Bearer ' + access_token },
         json: true
     };
@@ -150,21 +140,28 @@ const getRecommendations = (artists, tracks) => {
     })
 }
 
+const createPlaylist = () => {
+
+}
+
 const writeTracks = () => {
-    // Get weather playlist
+    const playId = localStorage.getItem('playlist')
+    if (!playId) {
+        // createPlaylist()
+    }
     // if no weather playlist, create one
     // if weatherplaylist.length > 0, delete songs
     // write new songs to playlist
     // present play button
 }
 
-export const generatePlaylist = (acc, disp_nm) => {
+
+export const generatePlaylist = async (acc, disp_nm) => {
     // HIGH-LEVEL function gets songs correlated with weather and makes playlist from them
     access_token = acc
     // console.log(acc)
     user_id = disp_nm
     console.log(user_id)
-    getRecommendations(topArtists(), topTracks())
+    topTracks()
 }
 
-console.log(getTargets('clear'))
