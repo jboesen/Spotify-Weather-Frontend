@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { requestAuth, handleRender } from '../../api-auth'
+import { check } from '../../api-playlists'
 
 const Home = () => {
     const history = useHistory()
@@ -11,6 +12,7 @@ const Home = () => {
     // if not logged in, check for code --> getCode
     // else, prompt login --> requestAuth
     const [loggedIn, setLoggedIn] = useState()
+    // TODO: fix
     useEffect(handleRender, [])
     // if (!token) {
     //     history.push('/');
