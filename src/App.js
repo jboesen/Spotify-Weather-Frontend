@@ -20,8 +20,8 @@ const App = () => (
       <Switch>
         <Route path="/login" component={Login} />
         <Route path="/home" component={Home} />
-        <Route path="/" component={Welcome} />
-        <Route path="/settings" component={Settings} />
+        <Route path="/" component={Settings} />
+        {/* <Route path="/" component={Welcome} /> */}
       </Switch>
     </div>
     {/* </ApolloProvider> */}
