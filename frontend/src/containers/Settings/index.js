@@ -4,22 +4,6 @@ import { useHistory } from 'react-router-dom'
 // import { credentials } from '../../credentials'
 // import { requestAuthorization, onPageLoad } from '../../api-functions'
 
-//  const Settings = () => {
-//     const [loggedIn, setLoggedIn] = useState(false)
-//     // check token
-//     // spotify = credentials()
-//     useEffect(
-//         () => { setLoggedIn(onPageLoad) }
-//         , []);
-
-//     return (<div>
-//         {loggedIn ?
-//             <p>logged in</p>
-//             :
-//             <button onClick={requestAuthorization}>click to login to spotify</button>}
-//     </div>)
-// }
-
 const Settings = () => {
     const CLIENT_ID = "4aa2e2d16efe46e198d444f232e96695"
     const CLIENT_SECRET = "42147b97f5254fc1b06949d1cc3f0694"

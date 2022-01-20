@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { requestAuth, handleRender } from '../../api-auth'
 import recommendations from './recommendations'
-import ListView from '../ListView'
+import ListView from '../../components/ListView'
 import { Background } from '../Login/styles'
 import { Container, StyledH1 } from '../Welcome/styles'
 import { PrettyText, FlexContainer, StyledButton, ProfileLink } from './styles'
@@ -12,7 +12,7 @@ import { PrettyText, FlexContainer, StyledButton, ProfileLink } from './styles'
 const Home = () => {
     // weather API implementation
     const [weather, setWeather] = useState({});
-    let location = "Boston"
+    let location = "Boston";
 
     useEffect(() => {
         const fetchData = async () => {
@@ -70,19 +70,3 @@ const Home = () => {
 }
 
 export default Home
-
-// {
-//     "coord": { "lon": -71.0598, "lat": 42.3584 },
-//     "weather": [{ "id": 804, "main": "Clouds", "description": "overcast clouds", "icon": "04d" }],
-//         "base": "stations",
-//             "main": { "temp": 274.85, "feels_like": 272.93, "temp_min": 273.36, "temp_max": 275.93, "pressure": 1019, "humidity": 84 },
-//     "visibility": 10000,
-//         "wind": { "speed": 1.79, "deg": 313, "gust": 4.92 },
-//     "clouds": { "all": 100 },
-//     "dt": 1642700752,
-//         "sys": { "type": 2, "id": 2013408, "country": "US", "sunrise": 1642680476, "sunset": 1642714934 },
-//     "timezone": -18000,
-//         "id": 4930956,
-//             "name": "Boston",
-//                 "cod": 200,
-// }
