@@ -1,8 +1,6 @@
 import styled from 'styled-components'
+import background from './background-dark.png'
 import { Link } from 'react-router-dom'
-import background from './background.png'
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 
 export const Background = styled.div`
   background-color: lightgray;
@@ -16,18 +14,20 @@ export const Background = styled.div`
   width: 100%;
 `
 
-export const Container = styled.div`
-    padding: 4% 8%;
-`
-
-export const StyledH1 = styled.h1` 
-    color: white;
+export const StyledInput = styled.input` 
+    background-color: white;
+    border-radius: 30px;
+    border: none;
     display: block;
     font-family: Montserrat, sans-serif;
-    font-size: 4em;
-    margin: 0px auto;
-    text-align: center;
-    margin: 50px 0 60px;
+    font-size: 1.2em;
+    margin: 10px auto;
+    padding: 15px 20px;
+    width: 350px;
+
+    :first-child{
+      margin: 170px auto 25px;
+    }
 `
 
 export const StyledLink = styled(Link)`
@@ -44,14 +44,10 @@ export const StyledLink = styled(Link)`
     text-align: center;
     text-decoration: none;
     transition: all 200ms;
-    width: 200px;
+    width: 90px;
 
     :hover{
         color: white;
         background-color: #06c0c1;
     }
 `
-// export const StyledIcon = styled(FontAwesomeIcon)`
-//     color: white;
-//     position: absolute;
-// `

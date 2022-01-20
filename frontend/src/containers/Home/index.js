@@ -12,6 +12,19 @@ import { PrettyText, FlexContainer, StyledButton, ProfileLink } from './styles'
 const Home = () => {
     // weather API implementation
     const [weather, setWeather] = useState({});
+    const position = navigator.geolocation.getCurrentPosition(coordinates);
+    console.log(`user position: ${position}`)
+    let userPosition = []
+
+    function coordinates(position) {
+        const latitude = position.coords.latitude
+        const longitude = position.coords.longitude
+        userPosition = [latitude, longitude]
+    }
+
+    console.log(userPosition)
+    // userPosition is undefined and i don't know why!
+
     let location = "Boston";
 
     useEffect(() => {
