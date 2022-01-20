@@ -140,11 +140,11 @@ const getRecommendations = (artists, tracks) => {
     }).then(
         rsp => {
             const recTracks = [];
-            rsp.tracks.forEach(e => recTracs.push(e.tracks.linked_from.uri));
+            rsp.tracks.forEach(e => recTracks.push(e.tracks.linked_from.uri));
             for (let i = 0; i < recTracks.length; i++) {
                 recTracks[i] = "spotify:track:" + recTracks[i]
             }
-            writeTracks(recTracs.join(','))
+            writeTracks(recTracks.join(','))
         })
     // request.get(options, (error, response, body) => {
     //     // TODO: parse response and convert list of tracks to array
