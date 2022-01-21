@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import background from './background-dark.png'
-import { Link } from 'react-router-dom'
+
 
 export const Background = styled.div`
   background-color: lightgray;
@@ -30,7 +30,7 @@ export const StyledInput = styled.input`
     }
 `
 
-export const StyledLink = styled(Link)`
+export const StyledButton = styled.button`
     background-color: white;
     border-radius: 30px;
     border: none;
@@ -44,7 +44,7 @@ export const StyledLink = styled(Link)`
     text-align: center;
     text-decoration: none;
     transition: all 200ms;
-    width: 90px;
+    width: 180px;
 
     :hover{
         color: white;

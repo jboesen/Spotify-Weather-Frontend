@@ -1,34 +1,44 @@
 import React, { useState } from 'react'
-import { useMutation, useQuery } from "@apollo/react-hooks"
-import { useHistory } from 'react-router-dom'
-import { Background, StyledInput, StyledLink } from './styles'
+import { useMutation } from "@apollo/react-hooks"
+import { Background, StyledInput, StyledButton } from './styles'
 import { Container } from '../Welcome/styles'
-import { LOGIN } from './graphql'
+import { REGISTER } from './graphql'
 
-const Register = () => {
-    const history = useHistory()
+const Register = (props) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+        props.history.push("/home");    
+    }
+    
     const [email, setEmail] = useState('')
-    const [pass, setPass] = useState('')
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+    const [location, setLocation] = useState('')
 
-    const [login, { loading, error }] = useMutation(LOGIN, {
+    const [register, { loading, error }] = useMutation(REGISTER, {
         variables: {
             email,
-            password: pass
+            password,
+            confirmPassword,
+            username,
+            location
         },
-        onCompleted: ({ login: { token } }) => {
+        onCompleted: ({ register: { token } }) => {
             localStorage.setItem('token', token);
-            // redirect to homepage
-            history.push('/home');
+            props.history.push("/home");
         },
+        onError: error => console.log(error)
     });
     return (
         <Background>
             <Container>
-                <StyledInput placeholder='Enter your email' type='email'></StyledInput>
-                <StyledInput placeholder='Enter your username' type='text'></StyledInput>
-                <StyledInput placeholder='Enter your password' type='password'></StyledInput>
-                <StyledInput placeholder='Confirm your password' type='password'></StyledInput>
-                <StyledLink to='/home'>Create an account</StyledLink>
+                <StyledInput placeholder='Enter your email' type='email' value={email} onChange={e => setEmail(e.target.value)}></StyledInput>
+                <StyledInput placeholder='Enter your username' type='text' value={username} onChange={e => setUsername(e.target.value)}></StyledInput>
+                <StyledInput placeholder='Enter your password' type='password' value={password} onChange={e => setPassword(e.target.value)}></StyledInput>
+                <StyledInput placeholder='Confirm your password' type='password' value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)}></StyledInput>
+                <StyledInput placeholder='Enter your location' type='text' value={location} onChange={e => setLocation(e.target.value)}></StyledInput>
+                <StyledButton onClick={() => register()}>Create an account</StyledButton>
             </Container>
         </Background>
     );
