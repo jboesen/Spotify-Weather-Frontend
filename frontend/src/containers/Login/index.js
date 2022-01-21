@@ -26,7 +26,7 @@ const Login = () => {
             <Container>
                 <StyledInput placeholder='Enter your email' type='email'></StyledInput>
                 <StyledInput placeholder='Enter your password' type='password'></StyledInput>
-                <StyledLink to='/home'>Log in</StyledLink>
+                <StyledLink to='/home'>Log ins</StyledLink>
             </Container>
         </Background>
     );
