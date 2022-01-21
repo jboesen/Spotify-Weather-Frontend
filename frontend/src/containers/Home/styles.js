@@ -46,6 +46,22 @@ export const StyledButton = styled.button`
     }
 `
 
+export const StyledButtonLinked = styled.button` 
+    background-color: white;
+    border-radius: 30px;
+    border: none;
+    color: #1DB954;
+    cursor: pointer;
+    display: block;
+    font-family: Montserrat, sans-serif;
+    font-size: 1.2em;
+    margin: 20px auto;
+    padding: 15px 20px;
+    text-align: center;
+    text-decoration: none;
+    width: 300px;
+`
+
 export const ProfileLink = styled(Link)`
     background-color: white;
     border-radius: 30px;

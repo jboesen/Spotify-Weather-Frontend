@@ -1,5 +1,8 @@
-let id = '4aa2e2d16efe46e198d444f232e96695'; // client id
-let sec = '42147b97f5254fc1b06949d1cc3f0694'; // secret
+// let id = '4aa2e2d16efe46e198d444f232e96695'; // client id
+// let sec = '42147b97f5254fc1b06949d1cc3f0694'; // secret
+let id = 'd018bd5889d440bc9c377bb82d5759cc'
+let sec = '5b5e9fcfd2a54d469961b3041ba8f059'
+const encodedAuth = Buffer.from(id + ":" + sec).toString('base64');
 const redirect_uri = 'http://localhost:3000/home'; // feel free to edit
 const request = require('request'); // "Request" library
 const { generatePlaylist } = require('./api-playlists')
@@ -22,16 +25,6 @@ const CURRENTLYPLAYING = "https://api.spotify.com/v1/me/player/currently-playing
 const SHUFFLE = "https://api.spotify.com/v1/me/player/shuffle";
 const CORS = "https://cors-anywhere.herokuapp.com/"
 
-const randString = (length) => {
-    let text = '';
-    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-    for (let i = 0; i < length; i++) {
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
-    }
-    return text;
-};
-
 export const requestAuth = () => {
     // TODO: get id's from backend
     let url = AUTHORIZE;
@@ -39,7 +32,7 @@ export const requestAuth = () => {
     url += "&response_type=code";
     url += "&redirect_uri=" + encodeURI(redirect_uri);
     url += "&show_dialog=true";
-    url += "&scope=user-read-private user-modify-playback-state user-library-read streaming playlist-read-private playlist-modify-private user-top-read";
+    url += "&scope=user-read-private user-modify-playback-state user-library-read playlist-read-private playlist-modify-private user-top-read";
     window.location.href = url; // Show Spotify's authorization screen
 }
 
@@ -49,7 +42,6 @@ const callAuthorizationApi = (body) => {
     console.log('callAuthorizationApi')
     xhr.open("POST", `${TOKEN}`, true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    const encodedAuth = Buffer.from(id + ":" + sec).toString('base64');
     xhr.setRequestHeader('Authorization', 'Basic ' + encodedAuth);
     xhr.send(body);
     xhr.onload = handleAuthorizationResponse;
@@ -66,7 +58,7 @@ const fetchAccessToken = () => {
             grant_type: 'authorization_code'
         },
         headers: {
-            'Authorization': 'Basic ' + (Buffer(id + ':' + sec).toString('base64'))
+            'Authorization': 'Basic ' + encodedAuth
         },
         json: true
     };
@@ -100,7 +92,7 @@ const refreshAccessToken = () => {
     const refresh_token = localStorage.getItem('refresh_token')
     const authOptions = {
         url: TOKEN,
-        headers: { 'Authorization': 'Basic ' + (new Buffer(id + ':' + sec).toString('base64')) },
+        headers: { 'Authorization': 'Basic ' + encodedAuth },
         form: {
             grant_type: 'refresh_token',
             refresh_token: refresh_token
@@ -170,7 +162,7 @@ const findCode = () => {
     return null;
 }
 
-const findAccess = () => {
+export const findAccess = () => {
     // change to suit backend
     console.log(`access token :${localStorage.getItem('access_token')}`)
     access_token = localStorage.getItem('access_token')
@@ -199,10 +191,12 @@ const updateAccess = () => {
                     return
                 }
             }
+        } catch (err) {
+            console.log(err)
         }
-        finally {
-            generatePlaylist(access_token, body.id);
-        }
+        // finally {
+        //     generatePlaylist(access_token, body.id);
+        // }
     });
 }
 
@@ -213,13 +207,14 @@ export const handleRender = () => {
         updateAccess()
     }
     else {
+        localStorage.setItem('access_token', '')
         const code = findCode()
         console.log(`Code: ${code}`)
         if (code) {
             fetchAccessToken(code)
-            window.history.pushState("", "", redirect_uri); // remove param from url 
         }
     }
+    window.history.pushState("", "", redirect_uri);
     // return values determine whether we need to alert user that he needs to update playlist
 }
 
