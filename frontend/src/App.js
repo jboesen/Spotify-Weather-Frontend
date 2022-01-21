@@ -6,6 +6,7 @@ import theme from './theme'
 import client from './client'
 import Home from './containers/Home'
 import Login from './containers/Login'
+import Register from './containers/Register'
 import Welcome from './containers/Welcome'
 import Settings from './containers/Settings'
 
@@ -18,6 +19,7 @@ const App = () => {
         <div className="App">
           <Switch>
             <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
             <Route path="/home" component={Home} />
             <Route path="/settings" component={Settings} />
             <Route path="/" component={Welcome} />

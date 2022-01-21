@@ -9,10 +9,6 @@ export const PrettyText = styled.div`
     font-size: 2em;
     margin: 0px auto;
     text-align: center;
-
-    :first-child{
-    color: #1DB954;
-    }
 `
 
 export const FlexContainer = styled.div` 
@@ -43,6 +39,10 @@ export const StyledButton = styled.button`
     :hover{
         color: #1DB954;
         background-color: white;
+    }
+
+    .red{
+        background-color: red;
     }
 `
 

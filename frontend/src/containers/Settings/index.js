@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 // import { credentials } from '../../credentials'
 // import { requestAuthorization, onPageLoad } from '../../api-functions'
+import { Background, Container } from '../Welcome/styles'
+import { StyledButton, PrettyText } from '../Home/styles'
 
 const Settings = () => {
     const CLIENT_ID = "4aa2e2d16efe46e198d444f232e96695"
@@ -13,7 +15,7 @@ const Settings = () => {
 
     const TOKEN = "https://accounts.spotify.com/api/token"
 
-    const history = useHistory()
+    // const history = useHistory()
 
     // const [loggedIn, setLoggedIn] = useState(false)
     const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"))
@@ -48,7 +50,7 @@ const Settings = () => {
 
         login()
 
-        window.history.pushState("", "", REDIRECT_URI)
+        // window.history.pushState("", "", REDIRECT_URI)
     }, [])
 
     useEffect(() => {
@@ -86,15 +88,32 @@ const Settings = () => {
         setAccessToken(null)
     }
 
+    const exampleEmail = 'rakeshkhurana@college.harvard.edu'
+    const exampleUsername = 'deanKhurana'
+    const examplePassword = '\u2022\u2022\u2022\u2022\u2022\u2022\u2022'
+
     return (<div>
-        {accessToken ?
-            <>
-                <p>access token: {accessToken}</p>
-                <p>refresh token: {refreshToken}</p>
-                <button onClick={logout}>Logout</button>
-            </> :
-            <button onClick={requestAuthorization}>Login to Spotify</button>
-        }
+
+        <Background>
+            <Container>
+                <PrettyText>Email: {exampleEmail}</PrettyText>
+                <StyledButton onClick={console.log('change sth')}>Change</StyledButton>
+                <PrettyText>Username: {exampleUsername}</PrettyText>
+                <StyledButton onClick={console.log('change sth')}>Change</StyledButton>
+                <PrettyText>Password: {examplePassword}</PrettyText>
+                <StyledButton onClick={console.log('change sth')}>Change</StyledButton>
+                {accessToken ? <>
+                    <PrettyText>access token: {accessToken}</PrettyText>
+                    <PrettyText>refresh token: {refreshToken}</PrettyText>
+                    <StyledButton onClick={logout}>Logout</StyledButton>
+                </> :
+                    <StyledButton onClick={requestAuthorization}>Login to Spotify</StyledButton>
+                }
+                <StyledButton onClick={console.log('delete account')} className="red">Delete Account</StyledButton>
+            </Container>
+        </Background>
+
+
     </div>)
 }
 

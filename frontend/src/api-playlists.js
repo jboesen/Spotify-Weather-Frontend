@@ -43,10 +43,6 @@ const legend = {
 }
 
 export const weatherRecs = async (weather) => {
-    const cityName = "Boston"
-    const stateAbbr = "US-MA"
-    console.log(weather)
-
     try {
         let weatherURL = getCondition(weather.weather[0].id.toString())
         return weatherURL;
