@@ -1,5 +1,5 @@
 // let id = '4aa2e2d16efe46e198d444f232e96695'; // client id
-// let sec = '42147b97f5254fc1b06949d1cc3f0694'; // secret
+// let sec = '42147b97f5254fc1b06949d1cc3f0694'; // client secret
 let id = 'd018bd5889d440bc9c377bb82d5759cc'
 let sec = '5b5e9fcfd2a54d469961b3041ba8f059'
 const encodedAuth = Buffer.from(id + ":" + sec).toString('base64');
@@ -141,7 +141,7 @@ const getUriCode = () => {
         const urlParams = new URLSearchParams(queryString);
         code = urlParams.get('code')
     }
-    localStorage.setItem('sptCode', code)
+    // localStorage.setItem('sptCode', code)
     return code;
 }
 
@@ -153,12 +153,12 @@ const findCode = () => {
         return uriCode
     }
     // check in local storage
-    else if (localStorage.getItem('sptCode')) {
-        // idk if this will work with the code over and over
-        code = localStorage.getItem('sptCode')
-        console.log(`Code: ${code}`)
-        return code
-    }
+    // else if (localStorage.getItem('sptCode')) {
+    //     // idk if this will work with the code over and over
+    //     code = localStorage.getItem('sptCode')
+    //     console.log(`Code: ${code}`)
+    //     return code
+    // }
     return null;
 }
 
@@ -207,10 +207,10 @@ export const handleRender = () => {
         updateAccess()
     }
     else {
-        localStorage.setItem('access_token', '')
         const code = findCode()
         console.log(`Code: ${code}`)
         if (code) {
+            localStorage.setItem('access_token', 'placeholder')
             fetchAccessToken(code)
         }
     }

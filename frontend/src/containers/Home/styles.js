@@ -51,7 +51,6 @@ export const StyledButtonLinked = styled.button`
     border-radius: 30px;
     border: none;
     color: #1DB954;
-    cursor: pointer;
     display: block;
     font-family: Montserrat, sans-serif;
     font-size: 1.2em;

@@ -15,6 +15,7 @@ const Home = () => {
     // weather API implementation
     const [weather, setWeather] = useState({});
     const [recs, setRecs] = useState({});
+    const [linked, setLinked] = useState(false);
   
     let location = {
         lon: 0,
@@ -24,6 +25,8 @@ const Home = () => {
     useEffect(() => {
         const fetchData = async () => {
             const getCoords = async () => {
+                setLinked(!!localStorage.getItem('access_token'))
+
                 const pos = await new Promise((resolve, reject) => {
                   navigator.geolocation.getCurrentPosition(resolve, reject);
                 });
@@ -38,6 +41,7 @@ const Home = () => {
             const data = await res.json()
             setWeather(data)
         }
+        handleRender()
         fetchData()
     }, []);
 
@@ -50,7 +54,7 @@ const Home = () => {
     // check if logged in in session --> consult makeratplay for this
     // if not logged in, check for code --> getCode
     // else, prompt login --> requestAuth
-    useEffect(handleRender, [])
+    // useEffect(handleRender, [])
 
     const getRecommendations = async () => {
         let newRecs = await check(localStorage.getItem('access_token'), weather)
@@ -65,7 +69,6 @@ const Home = () => {
     // }
 
     if (isLoaded) {
-        console.log(convertTemp(weather.main.temp))
         return (
             <Background>
                 <FadeIn>
@@ -83,7 +86,11 @@ const Home = () => {
                             </PrettyText>
                             <img src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`} alt="weather icon"></img>
                         </FlexContainer>
-                        <StyledButton onClick={requestAuth}> Link your spotify! <i className="fa fa-spotify"></i> </ StyledButton>
+                        {
+                            linked
+                            ? <StyledButtonLinked> Spotify linked! <i className="fa fa-spotify"></i> </ StyledButtonLinked>
+                            : <StyledButton onClick={requestAuth}> Link your spotify! <i className="fa fa-spotify"></i> </ StyledButton>
+                        }
                         <StyledButton onClick={getRecommendations}>Get recommendations!</StyledButton>
                         {
                             Object.keys(recs).length !== 0
