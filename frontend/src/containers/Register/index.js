@@ -3,13 +3,14 @@ import { useMutation } from "@apollo/react-hooks"
 import { Background, StyledInput, StyledButton } from './styles'
 import { Container } from '../Welcome/styles'
 import { REGISTER } from './graphql'
+import { StyledH1 } from '../Welcome/styles'
 
 const Register = (props) => {
     const token = localStorage.getItem('token');
     if (token) {
-        props.history.push("/home");    
+        props.history.push("/home");
     }
-    
+
     const [email, setEmail] = useState('')
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -33,6 +34,7 @@ const Register = (props) => {
     return (
         <Background>
             <Container>
+                <StyledH1>Register</StyledH1>
                 <StyledInput placeholder='Enter your email' type='email' value={email} onChange={e => setEmail(e.target.value)}></StyledInput>
                 <StyledInput placeholder='Enter your username' type='text' value={username} onChange={e => setUsername(e.target.value)}></StyledInput>
                 <StyledInput placeholder='Enter your password' type='password' value={password} onChange={e => setPassword(e.target.value)}></StyledInput>

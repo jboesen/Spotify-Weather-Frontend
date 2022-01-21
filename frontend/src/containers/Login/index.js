@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom'
 import { Background, StyledButton, StyledInput} from './styles'
 import { Container } from '../Welcome/styles'
 import { LOGIN } from './graphql'
+import { StyledH1 } from '../Welcome/styles'
 
 const Login = (props) => {
     const token = localStorage.getItem('token');
@@ -28,6 +29,7 @@ const Login = (props) => {
     return (
         <Background>
             <Container>
+                <StyledH1>Log in</StyledH1>
                 <StyledInput placeholder='Enter your email' type='email' value={email} onChange={(e) => setEmail(e.target.value)}></StyledInput>
                 <StyledInput placeholder='Enter your password' type='password' value={password} onChange={(e) => setPassword(e.target.value)}></StyledInput>
                 <StyledButton onClick={() => login()}>Log in</StyledButton>

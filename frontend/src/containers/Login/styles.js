@@ -21,7 +21,7 @@ export const StyledInput = styled.input`
     display: block;
     font-family: Montserrat, sans-serif;
     font-size: 1.2em;
-    margin: 170px auto 25px;
+    margin: 80px auto 25px;
     padding: 15px 20px;
     width: 350px;
 `
