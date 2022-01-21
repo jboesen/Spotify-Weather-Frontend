@@ -24,10 +24,6 @@ export const StyledInput = styled.input`
     margin: 10px auto;
     padding: 15px 20px;
     width: 350px;
-
-    :first-child{
-      margin: 170px auto 25px;
-    }
 `
 
 export const StyledButton = styled.button`

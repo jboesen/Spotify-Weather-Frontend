@@ -21,13 +21,9 @@ export const StyledInput = styled.input`
     display: block;
     font-family: Montserrat, sans-serif;
     font-size: 1.2em;
-    margin: 10px auto;
+    margin: 170px auto 25px;
     padding: 15px 20px;
     width: 350px;
-
-    :first-child{
-      margin: 170px auto 25px;
-    }
 `
 
 export const StyledButton = styled.button`

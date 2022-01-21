@@ -12,7 +12,7 @@ const ListView = ({ recs }) => {
                     <a key={idx} className='track-item' href={rec.uri}>
                         {/* item spacer is transparent and is used to right-align the indices */}
                         {idx !== 9 && <span className='item-spacer'>1</span>}
-                        <span className='item-number'>{idx+1}</span>
+                        <span className='item-number'>{idx + 1}</span>
                         <span className='track-info'>
                             <img className='track-img' src={rec.album.images[2].url} />
                             <span className='track-summary'>
@@ -30,7 +30,7 @@ const ListView = ({ recs }) => {
                     <a key={idx} className='track-item'>
                         {/* item spacer is transparent and is used to right-align the indices */}
                         {idx !== 9 && <span className='item-spacer'>1</span>}
-                        <span className='item-number'>{idx+1}</span>
+                        <span className='item-number'>{idx + 1}</span>
                     </a>
                 )
             }));
@@ -38,11 +38,11 @@ const ListView = ({ recs }) => {
     }
 
     return (
-    <StyledList className='list-content'>
-        <FadeIn>
-            {ListContent()}
-        </FadeIn>
-    </StyledList>
+        <StyledList className='list-content'>
+            <FadeIn>
+                {ListContent()}
+            </FadeIn>
+        </StyledList>
     );
 }
 

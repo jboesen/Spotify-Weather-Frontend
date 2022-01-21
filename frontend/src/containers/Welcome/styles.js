@@ -51,6 +51,35 @@ export const StyledLink = styled(Link)`
         background-color: #06c0c1;
     }
 `
+
+export const Logo = styled.img`
+    width: 300px;
+    display: block;
+    margin: 0px auto;
+`
+
+export const Subtitle = styled.p`
+    font-family: Montserrat, sans-serif;
+    width: 550px;
+    color: #06c0c1;
+    font-size: 1.2em;
+    font-weight: lighter;
+    display: block;
+    margin: 0px auto;
+    text-align: center;
+    margin-bottom: 18px;
+`
+
+export const Credits = styled.p`
+    font-family: Montserrat, sans-serif;
+    color: lightgray;
+    font-size: 0.9em;
+    font-weight: lighter;
+    display: block;
+    margin: 0px auto;
+    text-align: center;
+    margin-top: 150px;
+`
 // export const StyledIcon = styled(FontAwesomeIcon)`
 //     color: white;
 //     position: absolute;
