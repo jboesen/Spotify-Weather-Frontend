@@ -3,7 +3,12 @@ import {
   Background, Container, StyledH1, StyledLink
 } from './styles'
 
-const Welcome = () => {
+const Welcome = (props) => {
+  const token = localStorage.getItem('token');
+    if (token) {
+        props.history.push("/home");    
+    }
+    
   return (
     <Background>
       <Container>

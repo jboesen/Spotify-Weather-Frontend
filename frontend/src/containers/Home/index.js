@@ -1,17 +1,30 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
-import { requestAuth, handleRender, findAccess } from '../../api-auth'
+import { requestAuth, handleRender} from '../../api-auth'
 import ListView from '../../components/ListView'
 import { Background } from '../Login/styles'
 import { Container, StyledH1 } from '../Welcome/styles'
 import { PrettyText, FlexContainer, StyledButton, ProfileLink, StyledButtonLinked } from './styles'
 import FadeIn from 'react-fade-in';
-
 import { check } from '../../api-playlists'
+const jwt = require('jsonwebtoken')
 
 // album cover art url, track title, artist name
 
-const Home = () => {
+const Home = (props) => {
+    const decodeToken = token => {
+        if (!token) {
+            props.history.push("/")
+        }
+        try {
+            return jwt.verify(token, 'reughdjsasdkpmasipkmsdfadf')
+        } catch(err) {
+            props.history.push("/");
+        }
+    }
+
+    const token = localStorage.getItem('token');
+    decodeToken(token)
+
     // weather API implementation
     const [weather, setWeather] = useState({});
     const [recs, setRecs] = useState({});

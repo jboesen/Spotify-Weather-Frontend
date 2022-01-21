@@ -35,12 +35,10 @@ export const StyledButton = styled.button`
     text-decoration: none;
     transition: all 200ms;
     width: 300px;
-
     :hover{
         color: #1DB954;
         background-color: white;
     }
-
     .red{
         background-color: red;
     }
@@ -79,7 +77,6 @@ export const ProfileLink = styled(Link)`
     position: absolute;
     right: 75px;
     top: 15px;
-
     :hover{
         color: white;
         background-color: #06c0c1;

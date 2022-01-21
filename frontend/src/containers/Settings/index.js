@@ -1,12 +1,29 @@
 import React, { useState, useEffect } from 'react'
+import { useMutation } from "@apollo/react-hooks"
 // import axios from 'axios'
-import { useHistory } from 'react-router-dom'
 // import { credentials } from '../../credentials'
 // import { requestAuthorization, onPageLoad } from '../../api-functions'
 import { Background, Container } from '../Welcome/styles'
 import { StyledButton, PrettyText } from '../Home/styles'
+import { StyledInput } from '../Register/styles'
+import { UPDATE } from './graphql'
+const jwt = require('jsonwebtoken')
 
-const Settings = () => {
+const Settings = (props) => {
+    const decodeToken = token => {
+        if (!token) {
+            props.history.push("/")
+        }
+        try {
+            return jwt.verify(token, 'reughdjsasdkpmasipkmsdfadf')
+        } catch(err) {
+            props.history.push("/");
+        }
+    }
+
+    const token = localStorage.getItem('token');
+    decodeToken(token)
+
     const CLIENT_ID = "4aa2e2d16efe46e198d444f232e96695"
     const CLIENT_SECRET = "42147b97f5254fc1b06949d1cc3f0694"
     const REDIRECT_URI = "http://localhost:3000"
@@ -20,6 +37,23 @@ const Settings = () => {
     // const [loggedIn, setLoggedIn] = useState(false)
     const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"))
     const [refreshToken, setRefreshToken] = useState(localStorage.getItem("refreshToken"))
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+    const [oldUsername, setOldUsername] = useState('')
+    const [oldPassword, setOldPassword] = useState('')
+
+    const [updateAccountDetails, { loading, error }] = useMutation(UPDATE, {
+        variables: {
+            oldUsername,
+            username,
+            oldPassword,
+            password
+        },
+        onCompleted: () => {
+            props.history.push("/home");
+        },
+        onError: error => console.log(error)
+    });
 
     const requestAuthorization = () => {
         let url = `${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`
@@ -85,6 +119,7 @@ const Settings = () => {
 
     const logout = async () => {
         window.localStorage.clear()
+        props.history.push("/login")
         setAccessToken(null)
     }
 
@@ -96,20 +131,12 @@ const Settings = () => {
 
         <Background>
             <Container>
-                <PrettyText>Email: {exampleEmail}</PrettyText>
-                <StyledButton onClick={console.log('change sth')}>Change</StyledButton>
-                <PrettyText>Username: {exampleUsername}</PrettyText>
-                <StyledButton onClick={console.log('change sth')}>Change</StyledButton>
-                <PrettyText>Password: {examplePassword}</PrettyText>
-                <StyledButton onClick={console.log('change sth')}>Change</StyledButton>
-                {accessToken ? <>
-                    <PrettyText>access token: {accessToken}</PrettyText>
-                    <PrettyText>refresh token: {refreshToken}</PrettyText>
-                    <StyledButton onClick={logout}>Logout</StyledButton>
-                </> :
-                    <StyledButton onClick={requestAuthorization}>Login to Spotify</StyledButton>
-                }
-                <StyledButton onClick={console.log('delete account')} className="red">Delete Account</StyledButton>
+                <StyledInput placeholder='Old username' type='text' value={oldUsername} onChange={e => setOldUsername(e.target.value)}></StyledInput>
+                <StyledInput placeholder='New username' type='text' value={username} onChange={e => setUsername(e.target.value)}></StyledInput>
+                <StyledInput placeholder='Old password' type='text' value={oldPassword} onChange={e => setOldPassword(e.target.value)}></StyledInput>
+                <StyledInput placeholder='New password' type='password' value={password} onChange={e => setPassword(e.target.value)}></StyledInput>
+                <StyledButton onClick={() => updateAccountDetails()}>Change account details</StyledButton>
+                <StyledButton onClick={logout}>Logout</StyledButton> :
             </Container>
         </Background>
 
